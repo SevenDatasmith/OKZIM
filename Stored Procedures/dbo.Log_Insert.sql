@@ -1,0 +1,16 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE PROCEDURE [dbo].[Log_Insert]
+(
+	@pDate DATETIME,
+	@pApiURL NVARCHAR(200),
+	@pResponse NVARCHAR(MAX)
+)
+AS
+BEGIN
+	INSERT INTO Log ([Date], ApiUrl, Response) VALUES (@pDate, @pApiURL, @pResponse);
+	RETURN @@IDENTITY
+END
+GO
