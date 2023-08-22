@@ -9,7 +9,7 @@ BEGIN
 	DECLARE @vErrorID INT = 51000, @vErrorDesc VARCHAR(MAX) = ''
 
 	DECLARE @vEtag NVARCHAR(50) = '',
-	@vDocumentNo INT = 0,
+	@vDocumentNo  NVARCHAR(50) = '',
 	@vLineNo INT = 0,
 	@vDocumentType  VARCHAR(10) = '',
 	@vSystemID NVARCHAR(50) = '',
@@ -37,7 +37,6 @@ BEGIN
 		WHILE @@FETCH_STATUS = 0 
 		BEGIN
 			SELECT 
-				@vEtag = JSON_VALUE(@vSampleObject, '$."@odata.etag"'),
 				@vDocumentType = JSON_VALUE(@vSampleObject, '$.documentType'),
 				@vDocumentNo = JSON_VALUE(@vSampleObject, '$.documentNo'),
 				@vLineNo = JSON_VALUE(@vSampleObject, '$.lineNo'),
@@ -54,7 +53,6 @@ BEGIN
 				IF (SELECT COUNT(*) FROM PurchaseOrderLine WHERE DocumentNo  = @vDocumentNo AND [LineNo] = @vLineNo ) > 0
 				BEGIN
 					UPDATE PurchaseOrderLine SET
-					Etag = @vEtag,
 					DocumentType = @vDocumentType,
 					SystemID = @vSystemID,
 					ItemNo = @vItemNo,
@@ -69,10 +67,10 @@ BEGIN
 				END
 				ELSE
 				BEGIN
-					INSERT INTO PurchaseOrderLine(DocumentNo, [LineNo], Etag, DocumentType, SystemID, ItemNo, [Description], UnitOfMeasureCode, LocationCode, Quantity, OutstandingQuantity, 
+					INSERT INTO PurchaseOrderLine(DocumentNo, [LineNo],  DocumentType, SystemID, ItemNo, [Description], UnitOfMeasureCode, LocationCode, Quantity, OutstandingQuantity, 
 						DirectUnitCost, OutstandingAmount)
 					VALUES (
-						@vDocumentNo, @vLineNo, @vEtag, @vDocumentType, @vSystemID, @vItemNo, @vDescription, @vUnitOfMeasureCode, @vLocationCode, @vQuantity, @vOutstandingQuantity, @vDirectUnitCost, 
+						@vDocumentNo, @vLineNo,  @vDocumentType, @vSystemID, @vItemNo, @vDescription, @vUnitOfMeasureCode, @vLocationCode, @vQuantity, @vOutstandingQuantity, @vDirectUnitCost, 
 						@vOutstandingAmount)        
 				END
 

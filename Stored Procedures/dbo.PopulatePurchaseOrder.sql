@@ -9,7 +9,7 @@ BEGIN
 	DECLARE @vErrorID INT = 51000, @vErrorDesc VARCHAR(MAX) = ''
 
 	DECLARE 
-	@vOrderNo INT = 0,
+	@vOrderNo  NVARCHAR(50) = '',
 	@vEtag NVARCHAR(100) = '',
 	@vSystemID NVARCHAR(50) = '',
 	@vBuyFromVendorNo  NVARCHAR(20) = '',
@@ -51,7 +51,6 @@ BEGIN
 		WHILE @@FETCH_STATUS = 0 
 		BEGIN
 			SELECT 
-				@vEtag = JSON_VALUE(@vSampleObject, '$."@odata.etag"'),
 				@vSystemID = JSON_VALUE(@vSampleObject, '$.systemId'),
 				@vOrderNo = JSON_VALUE(@vSampleObject, '$.orderNo'),
 				@vBuyFromVendorNo = JSON_VALUE(@vSampleObject, '$.buyFromVendorNo'),
@@ -78,7 +77,6 @@ BEGIN
 				IF (SELECT COUNT(OrderNo) FROM PurchaseOrder WHERE OrderNo = @vOrderNo ) > 0
 					BEGIN
 						UPDATE PurchaseOrder SET
-								Etag = @vEtag,
 								SystemID = @vSystemID,
 								BuyFromVendorNo = @vBuyFromVendorNo,
 								BuyFromVendorName = @vBuyFromVendorName,
@@ -103,10 +101,10 @@ BEGIN
 					END
 				ELSE
 					BEGIN
-						INSERT INTO PurchaseOrder (OrderNo, Etag, SystemID, BuyFromVendorNo, BuyFromVendorName, BuyFromAddress, BuyFromAddress2, BuyFromCity, BuyFromPostCode, BuyFromCountryRegionCode, BuyFromContact, 
+						INSERT INTO PurchaseOrder (OrderNo, SystemID, BuyFromVendorNo, BuyFromVendorName, BuyFromAddress, BuyFromAddress2, BuyFromCity, BuyFromPostCode, BuyFromCountryRegionCode, BuyFromContact, 
 							YourReference, OrderDate, PostingDate, DocumentDate, ExpectedRecieptDate, DueDate, ShipmentMethodCode, LocationCode, PurchaserCode, VendorOrderNo, QuoteNo)
 						VALUES (
-							@vOrderNo, @vEtag, @vSystemID, @vBuyFromVendorNo, @vBuyFromVendorName, @vBuyFromAddress, @vBuyFromAddress2, @vBuyFromCity, @vBuyFromPostCode, @vBuyFromCountryRegionCode, @vBuyFromContact, @vYourReference, 
+							@vOrderNo, @vSystemID, @vBuyFromVendorNo, @vBuyFromVendorName, @vBuyFromAddress, @vBuyFromAddress2, @vBuyFromCity, @vBuyFromPostCode, @vBuyFromCountryRegionCode, @vBuyFromContact, @vYourReference, 
 							@vOrderDate, @vPostingDate, @vDocumentDate, @vExpectedRecieptDate, @vDueDate, @vShipmentMethodCode, @vLocationCode, @vPurchaserCode, @vVendorOrderNo, @vQuoteNo)
         
 					END

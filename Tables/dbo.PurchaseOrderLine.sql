@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[PurchaseOrderLine]
 (
-[CompanyID] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CompanyID] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DocumentNo] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [LineNo] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [DocumentType] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,

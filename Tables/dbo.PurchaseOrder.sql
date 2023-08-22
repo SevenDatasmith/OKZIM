@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[PurchaseOrder]
 (
-[CompanyID] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CompanyID] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [OrderNo] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [SystemID] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [BuyFromVendorNo] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
